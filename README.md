@@ -65,7 +65,7 @@ Este proyecto es una implementación de una API REST para un blog dedicado a Ove
 ## 🌐 Repositorio OverBlogWatch
 
 - **GitHub:**
-  [Repositorio en GitHub](https://github.com/TuUsuario/OverBlogWatch)
+  [Repositorio en GitHub](https://github.com/JosueSay/OverBlogWatch)
 
 ## 🐳 Imagen de Docker para MySQL
 
