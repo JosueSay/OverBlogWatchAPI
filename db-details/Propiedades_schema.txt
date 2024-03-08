@@ -1,0 +1,37 @@
+Entidades - Atributos:
+
+Posts
+•	Id post (PK)
+•	Titulo
+•	Contenido
+•	Fecha
+
+Comentario
+•	Id comentario (PK)
+•	Contenido
+•	Fecha
+
+Categoría
+•	Id categoría (PK)
+•	Nombre
+
+Usuarios
+•	Id usuario (PK)
+•	Nombre
+•	Email
+•	Password
+•	Id post (FK)
+
+DetalleComentario
+•	Id detalle comentario (PK)
+•	Id usuario (FK)
+•	Id post (FK)
+
+DetallePost
+•	Id detalle post (PK)
+•	Id categoría (FK)
+•	Id post (FK)
+
+
+
+
