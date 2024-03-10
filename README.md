@@ -27,40 +27,7 @@ Este proyecto es una implementación de una API REST para un blog dedicado a Ove
    - La API estará disponible en `https://localhost:3000`.
 
 3. **Endpoints Disponibles:**
-   - **Obtener todos los posts:**
-     - Método: `GET`
-     - Endpoint: `https://localhost:3000/posts`
-
-   - **Obtener detalle de un post:**
-     - Método: `GET`
-     - Endpoint: `https://localhost:3000/posts/:postId`
-
-   - **Crear un nuevo post:**
-     - Método: `POST`
-     - Endpoint: `https://localhost:3000/posts`
-     - Ejemplo de JSON en el cuerpo:
-       ```json
-       {
-         "title": "Mi Nuevo Post",
-         "content": "Este es el contenido de mi nuevo post",
-         "userId": 1
-       }
-       ```
-
-   - **Modificar un post existente:**
-     - Método: `PUT`
-     - Endpoint: `https://localhost:3000/posts/:postId`
-     - Ejemplo de JSON en el cuerpo:
-       ```json
-       {
-         "title": "Mi Post Modificado",
-         "content": "Este es el contenido modificado de mi post"
-       }
-       ```
-
-   - **Eliminar un post:**
-     - Método: `DELETE`
-     - Endpoint: `https://localhost:3000/posts/:postId`
+   - Ingresa a la ruta `https://localhost:3000/api-docs` cuando el servidor este encendido para ver las especificaciones de los endpoints.
 
 ## 🌐 Repositorio OverBlogWatch
 
