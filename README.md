@@ -14,6 +14,7 @@ Este proyecto es una implementación de una API REST para un blog dedicado a Ove
   - **main.js:** archivo que se ejecuta al introducir `npm start`, contiene la programación para el llamado y gestión de parámetros de endpoints de `db.js`.
   - **conn.js:** archivo que contiene la conexión a la base de datos para hacer peticiones, modificaciones, etc.
   - **db.js:** archivo que contiene la programación de los enpoints.
+  - **log.txt:** archivo que contiene el registro de las solicitudes del blog.
 
 ## 🚀 Instrucciones de Uso
 
