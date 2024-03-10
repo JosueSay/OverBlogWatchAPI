@@ -5,3 +5,7 @@
 {"time":"2024-03-10T02:42:59.427Z","endpoint":"/posts","method":"GET","payload":{},"response":500}
 {"time":"2024-03-10T02:56:51.282Z","endpoint":"/posts","method":"GET","payload":{},"response":200}
 {"time":"2024-03-10T02:57:57.563Z","endpoint":"/posts","method":"GET","payload":{},"response":200}
+{"time":"2024-03-10T22:42:54.767Z","endpoint":"/","method":"GET","payload":{},"response":400}
+{"time":"2024-03-10T22:43:03.415Z","endpoint":"/posts","method":"GET","payload":{},"response":304}
+{"time":"2024-03-10T22:43:17.385Z","endpoint":"/posts/2","method":"GET","payload":{},"response":200}
+{"time":"2024-03-10T22:56:24.318Z","endpoint":"/posts/2","method":"GET","payload":{},"response":304}
