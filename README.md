@@ -37,7 +37,7 @@ Este proyecto es una implementación de una API REST para un blog dedicado a Ove
 
 ## 🐳 Imagen de Docker para MySQL
 
-Crear la base de datos MySQL en un contenedor Docker:
+Crear la base de datos MySQL en un contenedor Docker, dirigite hacia la carpeta donde clonaste este repositorio y está el archivo `Dockerfile`:
 
 1. **Crear imágen docker:**
    ```bash
