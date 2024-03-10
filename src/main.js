@@ -1,9 +1,31 @@
 import express from 'express';
+import fs from 'fs'
 import { getAllPosts, createPost, getPostById, deletePostById, updatePostById } from './db.js';
 
 const app = express();
 app.use(express.json());
 
+// Middleware para el registro de detalles de cada endpoint llamado
+app.use((req, res, next) => {
+  const logData = {
+    time: new Date(),
+    endpoint: req.path,
+    method: req.method,
+    payload: req.body,
+  };
+
+  // Lógica para registrar la respuesta solo después de que la respuesta se ha enviado
+  res.on('finish', () => {
+    logData.response = res.statusCode;
+    fs.appendFile('./src/log.txt', JSON.stringify(logData) + '\n', (err) => {
+      if (err) console.error('Error writing to log:', err);
+    });
+  });
+
+  next();
+});
+
+// ENDPOINTS
 // Endpoint para obtener todos los posts
 app.get('/posts', async (req, res) => {
   try {
@@ -80,10 +102,32 @@ app.put('/posts/:postId', async (req, res) => {
   }
 });
 
+// MANEJO DE ERRORES
+// Manejar métodos HTTP no implementados
+app.use((req, res, next) => {
+  if (!['GET', 'POST', 'PUT', 'DELETE'].includes(req.method)) {
+    res.status(501).json({ error: 'Method not implemented' });
+  } else {
+    next();
+  }
+});
+
+// Manejar endpoints no implementados
+app.use((req, res, next) => {
+  res.status(400).json({ error: 'Bad Request: Endpoint not found' });
+});
+
+// Validar el formato del cuerpo en PUT y POST
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    res.status(400).json({ error: 'Bad Request: Invalid JSON format in request body' });
+  } else {
+    next();
+  }
+});
+
 const port = 3000;
 
 app.listen(port, () => {
   console.log(`Server listening at http://127.0.0.1:${port}`);
 });
-
-
