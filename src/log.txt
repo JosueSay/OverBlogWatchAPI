@@ -1,1 +1,7 @@
 {"time":"2024-03-10T01:54:32.162Z","endpoint":"/posts","method":"GET","payload":{},"response":304}
+{"time":"2024-03-10T02:06:39.148Z","endpoint":"/posts/1","method":"GET","payload":{},"response":200}
+{"time":"2024-03-10T02:41:07.436Z","endpoint":"/posts","method":"GET","payload":{},"response":200}
+{"time":"2024-03-10T02:41:08.630Z","endpoint":"/posts","method":"GET","payload":{},"response":304}
+{"time":"2024-03-10T02:42:59.427Z","endpoint":"/posts","method":"GET","payload":{},"response":500}
+{"time":"2024-03-10T02:56:51.282Z","endpoint":"/posts","method":"GET","payload":{},"response":200}
+{"time":"2024-03-10T02:57:57.563Z","endpoint":"/posts","method":"GET","payload":{},"response":200}

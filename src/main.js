@@ -1,9 +1,33 @@
 import express from 'express';
-import fs from 'fs'
+import fs from 'fs';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import cors from 'cors';
 import { getAllPosts, createPost, getPostById, deletePostById, updatePostById } from './db.js';
 
 const app = express();
 app.use(express.json());
+
+// Define las opciones de Swagger
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Blog API',
+      version: '1.0.0',
+      description: 'API for managing blog posts',
+    },
+  },
+  apis: ['./src/main.js'],
+};
+
+const specs = swaggerJsdoc(options);
+
+// Agrega Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+// Middleware para habilitar CORS
+app.use(cors());
 
 // Middleware para el registro de detalles de cada endpoint llamado
 app.use((req, res, next) => {
@@ -26,7 +50,22 @@ app.use((req, res, next) => {
 });
 
 // ENDPOINTS
-// Endpoint para obtener todos los posts
+
+/**
+ * @swagger
+ * /posts:
+ *   get:
+ *     summary: Obtiene un listado de todos los posts
+ *     responses:
+ *       200:
+ *         description: Un array de posts
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Post'
+ */
 app.get('/posts', async (req, res) => {
   try {
     const posts = await getAllPosts();
@@ -39,11 +78,56 @@ app.get('/posts', async (req, res) => {
   }
 });
 
-// Endpoint para crear un nuevo post
+/**
+ * @swagger
+ * /posts:
+ *   post:
+ *     summary: Crea un nuevo post
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: El post ha sido creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ */
+ /**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Post:
+ *       type: object
+ *       required:
+ *         - title
+ *         - content
+ *         - userId
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: El ID del post
+ *         title:
+ *           type: string
+ *           description: El título del post
+ *         content:
+ *           type: string
+ *           description: El contenido del post
+ *         userId:
+ *           type: integer
+ *           description: El ID del usuario que creó el post
+ *         image:
+ *           type: string
+ *           description: Imagen en formato base64
+ */
 app.post('/posts', async (req, res) => {
-  const { title, content, userId } = req.body;
+  const { title, content, userId, image } = req.body;
   try {
-    const result = await createPost(title, content, userId);
+    const result = await createPost(title, content, userId, image);
     res.json(result);
   } catch (error) {
     console.error('Error creating post:', error);
@@ -51,7 +135,26 @@ app.post('/posts', async (req, res) => {
   }
 });
 
-// Endpoint para obtener un post por su ID
+ /**
+ * @swagger
+ * /posts/{postId}:
+ *   get:
+ *     summary: Obtiene el detalle de un post específico
+ *     parameters:
+ *       - in: path
+ *         name: postId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del post
+ *     responses:
+ *       200:
+ *         description: Un objeto conteniendo el post
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ */
 app.get('/posts/:postId', async (req, res) => {
   const { postId } = req.params;
   try {
@@ -66,8 +169,23 @@ app.get('/posts/:postId', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-// Endpoint para borrar un post por su ID
+ 
+ /**
+ * @swagger
+ * /posts/{postId}:
+ *   delete:
+ *     summary: Elimina un post
+ *     parameters:
+ *       - in: path
+ *         name: postId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del post
+ *     responses:
+ *       204:
+ *         description: El post ha sido eliminado exitosamente
+ */
 app.delete('/posts/:postId', async (req, res) => {
   const { postId } = req.params;
   try {
@@ -83,8 +201,28 @@ app.delete('/posts/:postId', async (req, res) => {
   }
 });
 
-
-// Endpoint para modificar un post existente
+/**
+ * @swagger
+ * /posts/{postId}:
+ *   put:
+ *     summary: Modifica un post existente
+ *     parameters:
+ *       - in: path
+ *         name: postId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del post
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: El post ha sido modificado exitosamente
+ */
 app.put('/posts/:postId', async (req, res) => {
   const { postId } = req.params;
   const { title, content } = req.body;

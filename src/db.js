@@ -12,9 +12,9 @@ export async function getAllPosts() {
 }
 
 // Crear un nuevo post
-export async function createPost(title, content, userId) {
+export async function createPost(title, content, userId, image) {
   try {
-    const [result] = await conn.query('INSERT INTO Posts (Titulo, Contenido, Id_usuario) VALUES (?, ?, ?)', [title, content, userId]);
+    const [result] = await conn.query('INSERT INTO Posts (Titulo, Contenido, Id_usuario, Imagen) VALUES (?, ?, ?, ?)', [title, content, userId, image]);
     return result;
   } catch (error) {
     console.error('Error creating post:', error);
