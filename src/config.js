@@ -1,6 +1,9 @@
+import { config } from "dotenv";
+config();
+
 export const PORT = process.env.PORT || 3000
-export const DB_HOST = process.env.DB_HOST || 'roundhouse.proxy.rlwy.net'
+export const DB_HOST = process.env.DB_HOST || 'localhost'
 export const DB_USER = process.env.DB_USER || 'root'
-export const DB_PASSWORD = process.env.DB_PASSWORD || 'bgZdvENUZsEQfouRypVxlNqGoGLCnBMk'
-export const DB_NAME = process.env.DB_NAME || 'railway'
-export const DB_PORT = process.env.DB_PORT || 38042
+export const DB_PASSWORD = process.env.DB_PASSWORD || 'mypassword'
+export const DB_NAME = process.env.DB_NAME || 'mydb'
+export const DB_PORT = process.env.DB_PORT || 3306
