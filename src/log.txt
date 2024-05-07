@@ -8,3 +8,9 @@
 {"time":"2024-05-07T18:09:32.560Z","endpoint":"/","method":"GET","payload":{},"response":400}
 {"time":"2024-05-07T18:09:32.719Z","endpoint":"/favicon.ico","method":"GET","payload":{},"response":400}
 {"time":"2024-05-07T18:09:59.406Z","endpoint":"/posts","method":"GET","payload":{},"response":200}
+{"time":"2024-05-07T19:28:38.943Z","endpoint":"/","method":"GET","payload":{},"response":400}
+{"time":"2024-05-07T19:28:39.108Z","endpoint":"/favicon.ico","method":"GET","payload":{},"response":400}
+{"time":"2024-05-07T19:51:16.739Z","endpoint":"/","method":"GET","payload":{},"response":400}
+{"time":"2024-05-07T19:51:16.885Z","endpoint":"/favicon.ico","method":"GET","payload":{},"response":400}
+{"time":"2024-05-07T19:51:27.300Z","endpoint":"//posts/1","method":"GET","payload":{},"response":400}
+{"time":"2024-05-07T19:51:31.861Z","endpoint":"/posts/1","method":"GET","payload":{},"response":200}

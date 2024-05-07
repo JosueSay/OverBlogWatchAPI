@@ -69,13 +69,48 @@ app.use((req, res, next) => {
  */
 app.get('/posts', async (req, res) => {
   try {
-    const posts = await getAllPosts()
-    res.json(posts)
+    const posts = await getAllPosts();
+    res.json(posts);
   } catch (error) {
-    console.error('Error fetching posts:', error)
-    res.status(500).json({ error: 'Internal Server Error' })
+    console.error('Error fetching posts with users:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-})
+});
+
+/**
+ * @swagger
+ * /posts/{postId}:
+ *   get:
+ *     summary: Obtiene el detalle de un post específico
+ *     parameters:
+ *       - in: path
+ *         name: postId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del post
+ *     responses:
+ *       200:
+ *         description: Un objeto conteniendo el post
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ */
+app.get('/posts/:postId', async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const post = await getPostById(postId);
+    if (post) {
+      res.json(post);
+    } else {
+      res.status(404).json({ error: 'Post not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching post by ID with user:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 /**
  * @swagger
@@ -134,40 +169,6 @@ app.post('/posts', async (req, res) => {
   }
 })
 
-/**
- * @swagger
- * /posts/{postId}:
- *   get:
- *     summary: Obtiene el detalle de un post específico
- *     parameters:
- *       - in: path
- *         name: postId
- *         schema:
- *           type: integer
- *         required: true
- *         description: ID del post
- *     responses:
- *       200:
- *         description: Un objeto conteniendo el post
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Post'
- */
-app.get('/posts/:postId', async (req, res) => {
-  const { postId } = req.params
-  try {
-    const post = await getPostById(postId)
-    if (post) {
-      res.json(post)
-    } else {
-      res.status(404).json({ error: 'Post not found' })
-    }
-  } catch (error) {
-    console.error('Error fetching post by ID:', error)
-    res.status(500).json({ error: 'Internal Server Error' })
-  }
-})
 /**
  * @swagger
  * /posts/{postId}:
