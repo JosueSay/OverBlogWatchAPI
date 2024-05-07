@@ -4,7 +4,7 @@ import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import cors from 'cors'
 import { getAllPosts, createPost, getPostById, deletePostById, updatePostById } from './db.js'
-import { PORT } from './config.js'
+import { PORT, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } from './config.js'
 
 const app = express()
 app.use(express.json())
@@ -264,4 +264,9 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://127.0.0.1:${PORT}`)
+  console.log(`El DB Host es:${DB_HOST}`)
+  console.log(`El DB User es:${DB_USER}`)
+  console.log(`El DB PASSWORD es:${DB_PASSWORD}`)
+  console.log(`El DB_NAME es:${DB_NAME}`)
+  console.log(`El DB_PORT es:${DB_PORT}`)
 })
