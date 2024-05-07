@@ -4,6 +4,7 @@ import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import cors from 'cors'
 import { getAllPosts, createPost, getPostById, deletePostById, updatePostById } from './db.js'
+import { PORT } from './config.js'
 
 const app = express()
 app.use(express.json())
@@ -261,8 +262,6 @@ app.use((err, req, res, next) => {
   }
 })
 
-const port = 22801;
-
-app.listen(port, () => {
-  console.log(`Server listening at http://127.0.0.1:${port}`);
-});
+app.listen(PORT, () => {
+  console.log(`Server listening at http://127.0.0.1:${PORT}`)
+})
