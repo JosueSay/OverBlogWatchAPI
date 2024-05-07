@@ -5,3 +5,6 @@
 {"time":"2024-03-10T02:42:59.427Z","endpoint":"/posts","method":"GET","payload":{},"response":500}
 {"time":"2024-03-10T02:56:51.282Z","endpoint":"/posts","method":"GET","payload":{},"response":200}
 {"time":"2024-03-10T02:57:57.563Z","endpoint":"/posts","method":"GET","payload":{},"response":200}
+{"time":"2024-05-07T18:09:32.560Z","endpoint":"/","method":"GET","payload":{},"response":400}
+{"time":"2024-05-07T18:09:32.719Z","endpoint":"/favicon.ico","method":"GET","payload":{},"response":400}
+{"time":"2024-05-07T18:09:59.406Z","endpoint":"/posts","method":"GET","payload":{},"response":200}
