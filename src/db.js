@@ -33,6 +33,29 @@ export async function getPostById (postId) {
   }
 }
 
+// Obtener el comentario más popular de un post por su ID
+export async function getMostPopularComment(postId) {
+  try {
+    const query = `
+      SELECT Comentario.Contenido AS Comentario,
+             Comentario.Fecha AS Fecha_Comentario,
+             Comentario.Likes AS Likes_Comentario,
+             Usuarios.Nombre AS Usuario
+      FROM Comentario
+      INNER JOIN DetalleComentario ON Comentario.Id_comentario = DetalleComentario.Id_detalle_comentario
+      INNER JOIN Usuarios ON DetalleComentario.Id_usuario = Usuarios.Id_usuario
+      WHERE DetalleComentario.Id_post = ?
+      ORDER BY Comentario.Likes DESC
+      LIMIT 1
+    `;
+    const [rows] = await conn.query(query, [postId]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error fetching most popular comment:', error);
+    throw error;
+  }
+}
+
 // Crear un nuevo post
 export async function createPost (title, content, userId, image) {
   try {

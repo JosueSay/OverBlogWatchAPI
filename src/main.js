@@ -3,7 +3,7 @@ import fs from 'fs'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import cors from 'cors'
-import { getAllPosts, createPost, getPostById, deletePostById, updatePostById } from './db.js'
+import { getAllPosts, createPost, getPostById, deletePostById, updatePostById, getMostPopularComment } from './db.js'
 import { PORT, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } from './config.js'
 
 const app = express()
@@ -111,6 +111,24 @@ app.get('/posts/:postId', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+// Endpoint para obtener el comentario más popular de un post por su ID
+app.get('/posts/:postId/most-popular-comment', async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const mostPopularComment = await getMostPopularComment(postId);
+    if (mostPopularComment) {
+      res.json(mostPopularComment);
+    } else {
+      res.status(404).json({ error: 'No comments found for the post' });
+    }
+  } catch (error) {
+    console.error('Error fetching most popular comment:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 
 /**
  * @swagger

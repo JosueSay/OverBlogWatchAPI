@@ -79,3 +79,9 @@ INSERT INTO DetalleComentario (Id_usuario, Id_post) VALUES (2, 1);
 INSERT INTO DetallePost (Id_categoria, Id_post) VALUES (1, 1);
 INSERT INTO DetallePost (Id_categoria, Id_post) VALUES (2, 2);
 
+ALTER TABLE Posts
+ADD COLUMN Likes INT DEFAULT 0;
+
+
+ALTER TABLE Comentario
+ADD COLUMN Likes INT DEFAULT 0;
