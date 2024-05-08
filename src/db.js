@@ -33,6 +33,23 @@ export async function getPostById (postId) {
   }
 }
 
+// Obtener todos los posts de un usuario por su ID
+export async function getPostsByUserId(userId) {
+  try {
+    const query = `
+      SELECT Posts.*
+      FROM Posts
+      INNER JOIN Usuarios ON Posts.Id_usuario = Usuarios.Id_usuario
+      WHERE Usuarios.Id_usuario = ?
+    `;
+    const [rows] = await conn.query(query, [userId]);
+    return rows;
+  } catch (error) {
+    console.error('Error fetching posts by user ID:', error);
+    throw error;
+  }
+}
+
 // Obtener el comentario más popular de un post por su ID
 export async function getMostPopularComment(postId) {
   try {
@@ -55,6 +72,8 @@ export async function getMostPopularComment(postId) {
     throw error;
   }
 }
+
+
 
 // Crear un nuevo post
 export async function createPost (title, content, userId, image) {

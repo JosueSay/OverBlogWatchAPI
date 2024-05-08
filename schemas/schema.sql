@@ -80,8 +80,49 @@ INSERT INTO DetallePost (Id_categoria, Id_post) VALUES (1, 1);
 INSERT INTO DetallePost (Id_categoria, Id_post) VALUES (2, 2);
 
 ALTER TABLE Posts
-ADD COLUMN Likes INT DEFAULT 0;
-
-
+ADD COLUMN Cantidad_likes  INT DEFAULT 0;
 ALTER TABLE Comentario
 ADD COLUMN Likes INT DEFAULT 0;
+ALTER TABLE Posts
+ADD COLUMN Cantidad_comentarios INT DEFAULT 0;
+
+
+
+DELIMITER //
+
+CREATE TRIGGER actualizar_cantidad_comentarios
+AFTER INSERT ON DetalleComentario
+FOR EACH ROW
+BEGIN
+    -- Incrementar la cantidad de comentarios del post
+    UPDATE Posts
+    SET Cantidad_comentarios = Cantidad_comentarios + 1
+    WHERE Id_post = NEW.Id_post;
+END;
+//
+
+DELIMITER ;
+
+CREATE TABLE Likes (
+    Id_like INT PRIMARY KEY AUTO_INCREMENT,
+    Id_post INT,
+    Id_usuario INT,
+    FOREIGN KEY (Id_post) REFERENCES Posts(Id_post),
+    FOREIGN KEY (Id_usuario) REFERENCES Usuarios(Id_usuario)
+);
+
+DELIMITER //
+
+CREATE TRIGGER actualizar_cantidad_likes
+AFTER INSERT ON Likes
+FOR EACH ROW
+BEGIN
+    -- Incrementar la cantidad de likes del post
+    UPDATE Posts
+    SET Cantidad_likes = Cantidad_likes + 1
+    WHERE Id_post = NEW.Id_post;
+END;
+//
+
+DELIMITER ;
+INSERT INTO Likes (Id_post, Id_usuario) VALUES (2, 1);

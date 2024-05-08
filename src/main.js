@@ -3,7 +3,7 @@ import fs from 'fs'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import cors from 'cors'
-import { getAllPosts, createPost, getPostById, deletePostById, updatePostById, getMostPopularComment } from './db.js'
+import { getAllPosts, createPost, getPostById, deletePostById, updatePostById, getMostPopularComment, getPostsByUserId } from './db.js'
 import { PORT, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } from './config.js'
 
 const app = express()
@@ -112,6 +112,19 @@ app.get('/posts/:postId', async (req, res) => {
   }
 });
 
+// Endpoint para obtener todos los posts de un usuario por su ID
+app.get('/users/:userId/posts', async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const userPosts = await getPostsByUserId(userId);
+    res.json(userPosts);
+  } catch (error) {
+    console.error('Error fetching posts by user ID:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 // Endpoint para obtener el comentario más popular de un post por su ID
 app.get('/posts/:postId/most-popular-comment', async (req, res) => {
   const { postId } = req.params;
@@ -127,7 +140,6 @@ app.get('/posts/:postId/most-popular-comment', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
 
 
 /**
