@@ -89,7 +89,20 @@ export async function getUserByCredentials(username, password) {
   }
 }
 
-
+// Crear un nuevo usuario
+export async function createUser(nombre, email, password) {
+  try {
+    const query = `
+      INSERT INTO Usuarios (Nombre, Email, Password)
+      VALUES (?, ?, ?)
+    `;
+    const result = await conn.query(query, [nombre, email, password]);
+    return result;
+  } catch (error) {
+    console.error('Error creating user:', error);
+    throw error;
+  }
+}
 
 
 // Crear un nuevo post

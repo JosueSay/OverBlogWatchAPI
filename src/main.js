@@ -3,7 +3,7 @@ import fs from 'fs'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import cors from 'cors'
-import { getAllPosts, createPost, getPostById, deletePostById, updatePostById, getMostPopularComment, getPostsByUserId, getUserByCredentials } from './db.js'
+import { getAllPosts, createPost, getPostById, deletePostById, updatePostById, getMostPopularComment, getPostsByUserId, getUserByCredentials, createUser } from './db.js'
 import { PORT, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } from './config.js'
 
 const app = express()
@@ -153,6 +153,18 @@ app.post('/login', async (req, res) => {
     }
   } catch (error) {
     console.error('Error fetching user by credentials:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Endpoint para crear un nuevo usuario
+app.post('/users', async (req, res) => {
+  const { nombre, email, password } = req.body;
+  try {
+    const result = await createUser(nombre, email, password);
+    res.json({ message: 'User created successfully', result });
+  } catch (error) {
+    console.error('Error creating user:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
