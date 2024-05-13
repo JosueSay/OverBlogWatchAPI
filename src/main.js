@@ -69,13 +69,13 @@ app.use((req, res, next) => {
  */
 app.get('/posts', async (req, res) => {
   try {
-    const posts = await getAllPosts();
-    res.json(posts);
+    const posts = await getAllPosts()
+    res.json(posts)
   } catch (error) {
-    console.error('Error fetching posts with users:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error fetching posts with users:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
-});
+})
 
 /**
  * @swagger
@@ -98,78 +98,75 @@ app.get('/posts', async (req, res) => {
  *               $ref: '#/components/schemas/Post'
  */
 app.get('/posts/:postId', async (req, res) => {
-  const { postId } = req.params;
+  const { postId } = req.params
   try {
-    const post = await getPostById(postId);
+    const post = await getPostById(postId)
     if (post) {
-      res.json(post);
+      res.json(post)
     } else {
-      res.status(404).json({ error: 'Post not found' });
+      res.status(404).json({ error: 'Post not found' })
     }
   } catch (error) {
-    console.error('Error fetching post by ID with user:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error fetching post by ID with user:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
-});
+})
 
 // Endpoint para obtener todos los posts de un usuario por su ID
 app.get('/users/:userId/posts', async (req, res) => {
-  const { userId } = req.params;
+  const { userId } = req.params
   try {
-    const userPosts = await getPostsByUserId(userId);
-    res.json(userPosts);
+    const userPosts = await getPostsByUserId(userId)
+    res.json(userPosts)
   } catch (error) {
-    console.error('Error fetching posts by user ID:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error fetching posts by user ID:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
-});
-
+})
 
 // Endpoint para obtener el comentario más popular de un post por su ID
 app.get('/posts/:postId/most-popular-comment', async (req, res) => {
-  const { postId } = req.params;
+  const { postId } = req.params
   try {
-    const mostPopularComment = await getMostPopularComment(postId);
+    const mostPopularComment = await getMostPopularComment(postId)
     if (mostPopularComment) {
-      res.json(mostPopularComment);
+      res.json(mostPopularComment)
     } else {
-      res.status(404).json({ error: 'No comments found for the post' });
+      res.status(404).json({ error: 'No comments found for the post' })
     }
   } catch (error) {
-    console.error('Error fetching most popular comment:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error fetching most popular comment:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
-});
+})
 
 // Endpoint para obtener un usuario por nombre de usuario y contraseña
 app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password } = req.body
   try {
-    const user = await getUserByCredentials(username, password);
+    const user = await getUserByCredentials(username, password)
     if (user) {
-      res.json(user);
+      res.json(user)
     } else {
-      res.status(404).json({ error: 'User not found or incorrect credentials' });
+      res.status(404).json({ error: 'User not found or incorrect credentials' })
     }
   } catch (error) {
-    console.error('Error fetching user by credentials:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error fetching user by credentials:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
-});
+})
 
 // Endpoint para crear un nuevo usuario
 app.post('/users', async (req, res) => {
-  const { nombre, email, password } = req.body;
+  const { nombre, email, password } = req.body
   try {
-    const result = await createUser(nombre, email, password);
-    res.json({ message: 'User created successfully', result });
+    const result = await createUser(nombre, email, password)
+    res.json({ message: 'User created successfully', result })
   } catch (error) {
-    console.error('Error creating user:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error creating user:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
   }
-});
-
-
+})
 
 /**
  * @swagger

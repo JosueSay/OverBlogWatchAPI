@@ -7,12 +7,12 @@ export async function getAllPosts () {
       SELECT Posts.*, Usuarios.Nombre AS NombreUsuario
       FROM Posts
       INNER JOIN Usuarios ON Posts.Id_usuario = Usuarios.Id_usuario
-    `;
-    const [rows] = await conn.query(query);
-    return rows;
+    `
+    const [rows] = await conn.query(query)
+    return rows
   } catch (error) {
-    console.error('Error fetching posts with users:', error);
-    throw error;
+    console.error('Error fetching posts with users:', error)
+    throw error
   }
 }
 
@@ -24,34 +24,34 @@ export async function getPostById (postId) {
       FROM Posts
       INNER JOIN Usuarios ON Posts.Id_usuario = Usuarios.Id_usuario
       WHERE Posts.Id_post = ?
-    `;
-    const [rows] = await conn.query(query, [postId]);
-    return rows[0]; // Devolvemos el primer resultado, ya que debería ser único
+    `
+    const [rows] = await conn.query(query, [postId])
+    return rows[0] // Devolvemos el primer resultado, ya que debería ser único
   } catch (error) {
-    console.error('Error fetching post by ID with user:', error);
-    throw error;
+    console.error('Error fetching post by ID with user:', error)
+    throw error
   }
 }
 
 // Obtener todos los posts de un usuario por su ID
-export async function getPostsByUserId(userId) {
+export async function getPostsByUserId (userId) {
   try {
     const query = `
       SELECT Posts.*
       FROM Posts
       INNER JOIN Usuarios ON Posts.Id_usuario = Usuarios.Id_usuario
       WHERE Usuarios.Id_usuario = ?
-    `;
-    const [rows] = await conn.query(query, [userId]);
-    return rows;
+    `
+    const [rows] = await conn.query(query, [userId])
+    return rows
   } catch (error) {
-    console.error('Error fetching posts by user ID:', error);
-    throw error;
+    console.error('Error fetching posts by user ID:', error)
+    throw error
   }
 }
 
 // Obtener el comentario más popular de un post por su ID
-export async function getMostPopularComment(postId) {
+export async function getMostPopularComment (postId) {
   try {
     const query = `
       SELECT Comentario.Contenido AS Comentario,
@@ -64,46 +64,45 @@ export async function getMostPopularComment(postId) {
       WHERE DetalleComentario.Id_post = ?
       ORDER BY Comentario.Likes DESC
       LIMIT 1
-    `;
-    const [rows] = await conn.query(query, [postId]);
-    return rows[0];
+    `
+    const [rows] = await conn.query(query, [postId])
+    return rows[0]
   } catch (error) {
-    console.error('Error fetching most popular comment:', error);
-    throw error;
+    console.error('Error fetching most popular comment:', error)
+    throw error
   }
 }
 
 // Obtener un usuario por nombre de usuario y contraseña
-export async function getUserByCredentials(username, password) {
+export async function getUserByCredentials (username, password) {
   try {
     const query = `
       SELECT *
       FROM Usuarios
       WHERE Nombre = ? AND Password = ?
-    `;
-    const [rows] = await conn.query(query, [username, password]);
-    return rows[0];
+    `
+    const [rows] = await conn.query(query, [username, password])
+    return rows[0]
   } catch (error) {
-    console.error('Error fetching user by credentials:', error);
-    throw error;
+    console.error('Error fetching user by credentials:', error)
+    throw error
   }
 }
 
 // Crear un nuevo usuario
-export async function createUser(nombre, email, password) {
+export async function createUser (nombre, email, password) {
   try {
     const query = `
       INSERT INTO Usuarios (Nombre, Email, Password)
       VALUES (?, ?, ?)
-    `;
-    const result = await conn.query(query, [nombre, email, password]);
-    return result;
+    `
+    const result = await conn.query(query, [nombre, email, password])
+    return result
   } catch (error) {
-    console.error('Error creating user:', error);
-    throw error;
+    console.error('Error creating user:', error)
+    throw error
   }
 }
-
 
 // Crear un nuevo post
 export async function createPost (title, content, userId, image) {
