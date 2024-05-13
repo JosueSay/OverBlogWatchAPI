@@ -73,6 +73,23 @@ export async function getMostPopularComment(postId) {
   }
 }
 
+// Obtener un usuario por nombre de usuario y contraseña
+export async function getUserByCredentials(username, password) {
+  try {
+    const query = `
+      SELECT *
+      FROM Usuarios
+      WHERE Nombre = ? AND Password = ?
+    `;
+    const [rows] = await conn.query(query, [username, password]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error fetching user by credentials:', error);
+    throw error;
+  }
+}
+
+
 
 
 // Crear un nuevo post

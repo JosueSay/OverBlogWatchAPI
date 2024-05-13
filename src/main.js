@@ -3,7 +3,7 @@ import fs from 'fs'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import cors from 'cors'
-import { getAllPosts, createPost, getPostById, deletePostById, updatePostById, getMostPopularComment, getPostsByUserId } from './db.js'
+import { getAllPosts, createPost, getPostById, deletePostById, updatePostById, getMostPopularComment, getPostsByUserId, getUserByCredentials } from './db.js'
 import { PORT, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } from './config.js'
 
 const app = express()
@@ -140,6 +140,23 @@ app.get('/posts/:postId/most-popular-comment', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+// Endpoint para obtener un usuario por nombre de usuario y contraseña
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const user = await getUserByCredentials(username, password);
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ error: 'User not found or incorrect credentials' });
+    }
+  } catch (error) {
+    console.error('Error fetching user by credentials:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 /**
