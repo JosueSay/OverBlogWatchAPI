@@ -37,10 +37,10 @@ export async function getPostById (postId) {
 export async function getPostsByUserId (userId) {
   try {
     const query = `
-      SELECT Posts.*
+      SELECT Posts.*, Usuarios.Id_usuario, Usuarios.Nombre
       FROM Posts
       INNER JOIN Usuarios ON Posts.Id_usuario = Usuarios.Id_usuario
-      WHERE Usuarios.Id_usuario = ?
+      WHERE Usuarios.Id_usuario = 1;
     `
     const [rows] = await conn.query(query, [userId])
     return rows
@@ -54,16 +54,17 @@ export async function getPostsByUserId (userId) {
 export async function getMostPopularComment (postId) {
   try {
     const query = `
-      SELECT Comentario.Contenido AS Comentario,
-             Comentario.Fecha AS Fecha_Comentario,
-             Comentario.Likes AS Likes_Comentario,
-             Usuarios.Nombre AS Usuario
-      FROM Comentario
-      INNER JOIN DetalleComentario ON Comentario.Id_comentario = DetalleComentario.Id_detalle_comentario
-      INNER JOIN Usuarios ON DetalleComentario.Id_usuario = Usuarios.Id_usuario
-      WHERE DetalleComentario.Id_post = ?
-      ORDER BY Comentario.Likes DESC
-      LIMIT 1
+    SELECT Comentario.Contenido AS Comentario,
+        Comentario.Fecha AS Fecha_Comentario,
+        Comentario.Likes AS Likes_Comentario,
+        Usuarios.Nombre AS Usuario,
+        Usuarios.Id_usuario AS Comennted_Id
+    FROM Comentario
+    INNER JOIN DetalleComentario ON Comentario.Id_comentario = DetalleComentario.Id_comentario
+    INNER JOIN Usuarios ON DetalleComentario.Id_usuario = Usuarios.Id_usuario
+    WHERE DetalleComentario.Id_post = ?
+    ORDER BY Comentario.Likes DESC
+    LIMIT 1
     `
     const [rows] = await conn.query(query, [postId])
     return rows[0]
@@ -85,6 +86,24 @@ export async function getUserByCredentials (username, password) {
     return rows[0]
   } catch (error) {
     console.error('Error fetching user by credentials:', error)
+    throw error
+  }
+}
+
+// Obtener comentarios de un post por su ID
+export async function getCommentsByPostId (postId) {
+  try {
+    const query = `
+      SELECT Comentario.*, Usuarios.Nombre AS Nombre_Usuario, Usuarios.Id_usuario AS Id_Usuario
+      FROM Comentario
+      INNER JOIN DetalleComentario ON Comentario.Id_comentario = DetalleComentario.Id_comentario
+      INNER JOIN Usuarios ON DetalleComentario.Id_usuario = Usuarios.Id_usuario
+      WHERE DetalleComentario.Id_post = ?
+    `
+    const [rows] = await conn.query(query, [postId])
+    return rows
+  } catch (error) {
+    console.error('Error fetching comments by post ID:', error)
     throw error
   }
 }

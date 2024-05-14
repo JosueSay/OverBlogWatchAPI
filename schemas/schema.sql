@@ -126,3 +126,8 @@ END;
 
 DELIMITER ;
 INSERT INTO Likes (Id_post, Id_usuario) VALUES (2, 1);
+
+
+ALTER TABLE DetalleComentario
+ADD COLUMN Id_comentario INT,
+ADD FOREIGN KEY (Id_comentario) REFERENCES Comentario(Id_comentario);

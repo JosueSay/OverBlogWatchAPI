@@ -3,7 +3,7 @@ import fs from 'fs'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 import cors from 'cors'
-import { getAllPosts, createPost, getPostById, deletePostById, updatePostById, getMostPopularComment, getPostsByUserId, getUserByCredentials, createUser } from './db.js'
+import { getAllPosts, createPost, getPostById, deletePostById, updatePostById, getMostPopularComment, getPostsByUserId, getUserByCredentials, createUser, getCommentsByPostId } from './db.js'
 import { PORT, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT } from './config.js'
 
 const app = express()
@@ -152,6 +152,34 @@ app.post('/login', async (req, res) => {
     }
   } catch (error) {
     console.error('Error fetching user by credentials:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
+})
+
+// Endpoint para obtener un post por su ID
+app.get('/posts/:postId', async (req, res) => {
+  const { postId } = req.params
+  try {
+    const post = await getPostById(postId)
+    if (post) {
+      res.json(post)
+    } else {
+      res.status(404).json({ error: 'Post not found' })
+    }
+  } catch (error) {
+    console.error('Error fetching post by ID:', error)
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
+})
+
+// Endpoint para obtener los comentarios de un post por su ID
+app.get('/posts/:postId/comments', async (req, res) => {
+  const { postId } = req.params
+  try {
+    const comments = await getCommentsByPostId(postId)
+    res.json(comments)
+  } catch (error) {
+    console.error('Error fetching comments by post ID:', error)
     res.status(500).json({ error: 'Internal Server Error' })
   }
 })
